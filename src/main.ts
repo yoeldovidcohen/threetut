@@ -1,27 +1,24 @@
-import {Scene, PerspectiveCamera, WebGLRenderer, BoxGeometry, MeshBasicMaterial, Mesh} from 'three'
-import './style.css'
+import {
+  BoxBufferGeometry,
+  Color,
+  Mesh,
+  MeshBasicMaterial,
+  PerspectiveCamera,
+  Scene,
+  WebGLRenderer,
+} from "three";
 
-const scene = new Scene()
-const camera = new PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000)
+const container = document.querySelector("scene-container");
 
-const renderer = new WebGLRenderer()
-renderer.setSize(window.innerWidth, window.innerHeight)
-document.body.appendChild(renderer.domElement)
+const scene = new Scene();
+scene.background = new Color("skyblue");
 
-const geometry = new BoxGeometry(1,1,1)
-const material = new MeshBasicMaterial( {
-  color: 0x00ff00
-} )
-const cube = new Mesh(geometry, material)
+const fov = 35;
+const aspect = container?.clientWidth / container?.clientHeight;
+const near = 0.1;
+const far = 100;
 
-scene.add(cube)
-
-camera.position.z = 5
-
-function animate() {
-  requestAnimationFrame(animate)
-  cube.rotation.x += 0.01;
-  cube.rotation.y += 0.01;
-  renderer.render(scene,camera)
-}
-animate()
+const camera = new PerspectiveCamera(fov, aspect, near, far);
+camera.position.set(0, 0, 10);
+const geometry = BoxBufferGeometry(2, 2, 2);
+const material = new MeshBasicMaterial()
